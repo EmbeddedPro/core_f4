@@ -7,7 +7,6 @@ but can be easily adapted for every STM32f4
 It's blinking some LEDs and writes dummy text on UART3.
 
 Prerequisites:
-
 	1. STM32CubeMX code generator - http://www.st.com/web/en/catalog/tools/PF259242
 	2. STM32CubeF4 firmware - http://www.st.com/web/en/catalog/tools/PF259243
 	3. STM32_CUBE_ROOT eclipse project environment variable to point to STM32CubeF4 folder
