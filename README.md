@@ -6,12 +6,12 @@ but can be easily adapted for every STM32f4
 
 It's blinking some LEDs and writes dummy text on UART3.
 
-Prerequisites:
-	1. STM32CubeMX code generator - http://www.st.com/web/en/catalog/tools/PF259242
-	2. STM32CubeF4 firmware - http://www.st.com/web/en/catalog/tools/PF259243
-	3. STM32_CUBE_ROOT eclipse project environment variable to point to STM32CubeF4 folder
-	4. Eclipse CDT
-	5. GCC
+<h1>Prerequisites</h1>:
+1. STM32CubeMX code generator - http://www.st.com/web/en/catalog/tools/PF259242
+2. STM32CubeF4 firmware - http://www.st.com/web/en/catalog/tools/PF259243
+3. STM32_CUBE_ROOT eclipse project environment variable to point to STM32CubeF4 folder
+4. Eclipse CDT
+5. GCC
 
 Under the src/generated you will find the files that can be generated/updated by STM32CubeMX utility.
 In this particular case, it is configured for the maximum frequency (168 MHz), UART 3 enabled and can be used as debug uart.
