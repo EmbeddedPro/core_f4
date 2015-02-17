@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.2035873107.547555649/STM32_CUBE_ROOT/delimiter=;
-environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.2035873107.547555649/STM32_CUBE_ROOT/operation=append
-environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.2035873107.547555649/STM32_CUBE_ROOT/value=c\:\\tools\\ARM_FWs\\STM32Cube_V1.4.0\\
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.2035873107.547555649/STM32_CUBE_ROOT/operation=replace
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.2035873107.547555649/STM32_CUBE_ROOT/value=c\:\\Tools\\ARM_FWs\\STM32Cube_V1.4.0
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.2035873107.547555649/append=true
 environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.2035873107.547555649/appendContributed=true
