@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * File Name          : main.c
-  * Date               : 17/02/2015 00:04:37
+  * Date               : 17/02/2015 17:27:36
   * Description        : Main program body
   ******************************************************************************
   *
@@ -38,7 +38,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+#include <stddef.h>
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -82,18 +82,23 @@ int main(void)
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN 3 */
+  uint8_t cnt = 0;
+  uint8_t test[20] = {'K', 'A', 'K', 'A', '_', 'M', 'A', 'K', 'A', '[', 'x', ']', '\r', '\n'};
+
   /* Infinite loop */
-  uint32_t cnt = 0;
-  uint8_t test[20];
-  memset(test, 0, sizeof(test));
-  memcpy(test, "KAKA_MAKA[x]\r\n", 14);
   while (1)
   {
-	  HAL_Delay(1000);
-	  cnt = (cnt + 1) % 4 ;
+	  HAL_Delay(250);
+
+	  /* Blink the LEDs */
 	  GPIOD->ODR = (1u << ((cnt) + 12));
+
+	  /* transmit dummy on UART 3 */
 	  test[10] = '0' + cnt;
+
 	  HAL_UART_Transmit(&huart3, test, 14, 1000);
+
+	  cnt = (cnt + 1) % 4 ;
   }
   /* USER CODE END 3 */
 
