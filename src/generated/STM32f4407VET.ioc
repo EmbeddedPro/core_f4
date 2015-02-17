@@ -1,5 +1,5 @@
 #MicroXplorer Configuration settings - do not modify
-#Tue Feb 17 17:45:55 EET 2015
+#Wed Feb 18 00:09:43 EET 2015
 File.Version=5
 KeepUserPlacement=false
 Mcu.Family=STM32F4
@@ -136,7 +136,7 @@ RCC.HCLKFreq_Value=168000000
 RCC.HSE_VALUE=8000000
 RCC.HSI_VALUE=16000000
 RCC.I2SClocksFreq_Value=96000000
-RCC.IPParameters=LSI_VALUE,APB1TimFreq_Value,MCO2PinFreq_Value,APB2Freq_Value,APB1CLKDivider,FCLKCortexFreq_Value,AHBFreq_Value,48MHZClocksFreq_Value,VCOInputFreq_Value,PLLSourceVirtual,I2SClocksFreq_Value,SYSCLKFreq_VALUE,SYSCLKSource,HSE_VALUE,HSI_VALUE,VCOI2SOutputFreq_Value,PLLCLKFreq_Value,RTCFreq_Value,FamilyName,MCO1PinFreq_Value,RCC_MCODiv1,HCLKFreq_Value,EthernetFreq_Value,APB2CLKDivider,PLLM,PLLN,VCOOutputFreq_Value,VcooutputI2S,CortexFreq_Value,APB1Freq_Value,RTCHSEDivFreq_Value,RCC_MCO1Source,APB2TimFreq_Value
+RCC.IPParameters=LSI_VALUE,APB1TimFreq_Value,APB2Freq_Value,MCO2PinFreq_Value,APB1CLKDivider,FCLKCortexFreq_Value,AHBFreq_Value,48MHZClocksFreq_Value,VCOInputFreq_Value,I2SClocksFreq_Value,PLLSourceVirtual,SYSCLKFreq_VALUE,SYSCLKSource,HSE_VALUE,HSI_VALUE,VCOI2SOutputFreq_Value,PLLCLKFreq_Value,RTCFreq_Value,FamilyName,MCO1PinFreq_Value,RCC_MCODiv1,HCLKFreq_Value,EthernetFreq_Value,APB2CLKDivider,PLLM,PLLN,VCOOutputFreq_Value,VcooutputI2S,CortexFreq_Value,APB1Freq_Value,RTCHSEDivFreq_Value,RCC_MCO1Source,APB2TimFreq_Value
 RCC.LSI_VALUE=32000
 RCC.MCO1PinFreq_Value=42000000
 RCC.MCO2PinFreq_Value=168000000
@@ -154,5 +154,6 @@ RCC.VCOI2SOutputFreq_Value=192000000
 RCC.VCOInputFreq_Value=1000000
 RCC.VCOOutputFreq_Value=336000000
 RCC.VcooutputI2S=96000000
-USART3.IPParameters=Parity-Asynchronous
+USART3.BaudRate=921600
+USART3.IPParameters=BaudRate,Parity-Asynchronous
 USART3.Parity-Asynchronous=UART_PARITY_NONE
