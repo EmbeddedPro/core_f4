@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * File Name          : USART.c
-  * Date               : 19/02/2015 03:02:34
+  * Date               : 19/02/2015 17:49:45
   * Description        : This file provides code for the configuration
   *                      of the USART instances.
   ******************************************************************************
@@ -50,7 +50,7 @@ void MX_USART3_UART_Init(void)
 {
 
   huart3.Instance = USART3;
-  huart3.Init.BaudRate = 921600;
+  huart3.Init.BaudRate = 115200;
   huart3.Init.WordLength = UART_WORDLENGTH_8B;
   huart3.Init.StopBits = UART_STOPBITS_1;
   huart3.Init.Parity = UART_PARITY_NONE;

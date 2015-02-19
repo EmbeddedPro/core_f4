@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * File Name          : freertos.c
-  * Date               : 19/02/2015 03:02:34
+  * Date               : 19/02/2015 17:49:45
   * Description        : Code for freertos applications
   ******************************************************************************
   *
@@ -39,12 +39,15 @@
 
 /* USER CODE BEGIN Includes */     
 #include "gpio.h"
+#include "usart.h"
 /* USER CODE END Includes */
 
 /* Variables -----------------------------------------------------------------*/
 osThreadId defaultTaskHandle;
 osThreadId UartTaskHandle;
 osThreadId LedsTaskHandle;
+osThreadId LogTaskHandle;
+osMessageQId logQueueHandle;
 
 /* USER CODE BEGIN Variables */
 
@@ -54,6 +57,7 @@ osThreadId LedsTaskHandle;
 void StartDefaultTask(void const * argument);
 void uartTaskHandler(void const * argument);
 void ledsTaskHandler(void const * argument);
+void logTaskHandler(void const * argument);
 
 /* USER CODE BEGIN FunctionPrototypes */
 
@@ -162,9 +166,18 @@ void MX_FREERTOS_Init() {
   osThreadDef(LedsTask, ledsTaskHandler, osPriorityIdle, 0, 128);
   LedsTaskHandle = osThreadCreate(osThread(LedsTask), NULL);
 
+  /* definition and creation of LogTask */
+  osThreadDef(LogTask, logTaskHandler, osPriorityAboveNormal, 0, 128);
+  LogTaskHandle = osThreadCreate(osThread(LogTask), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
+
+  /* Create the queue(s) */
+  /* definition and creation of logQueue */
+  osMessageQDef(logQueue, 16, uint32_t);
+  logQueueHandle = osMessageCreate(osMessageQ(logQueue), NULL);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
@@ -176,9 +189,18 @@ void uartTaskHandler(void const * argument)
 {
   /* USER CODE BEGIN uartTaskHandler */
   /* Infinite loop */
+	  uint8_t cnt = 0;
+	  uint8_t test[20] = {'K', 'A', 'K', 'A', '_', 'M', 'A', 'K', 'A', '[', 'x', ']', '\r', '\n'};
+
   for(;;)
   {
-    osDelay(1);
+	  osDelay(5000);
+	  /* transmit dummy on UART 3 */
+	  test[10] = '0' + cnt;
+
+	  HAL_UART_Transmit(&huart3, test, 14, 1000);
+
+	  cnt = (cnt + 1) % 10 ;
   }
   /* USER CODE END uartTaskHandler */
 }
@@ -199,6 +221,23 @@ void ledsTaskHandler(void const * argument)
 	  osDelay(250);
   }
   /* USER CODE END ledsTaskHandler */
+}
+
+/* logTaskHandler function */
+void logTaskHandler(void const * argument)
+{
+   /* USER CODE BEGIN logTaskHandler */
+   /* Infinite loop */
+   for (;;)
+   {
+      UBaseType_t no = uxQueueMessagesWaiting(logQueueHandle);
+      if (no > 0) //there is a log to print
+      {
+
+      }
+      osDelay(1);
+   }
+   /* USER CODE END logTaskHandler */
 }
 
 /* USER CODE BEGIN Application */

@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * File Name          : main.c
-  * Date               : 19/02/2015 03:02:34
+  * Date               : 19/02/2015 17:49:46
   * Description        : Main program body
   ******************************************************************************
   *
@@ -36,7 +36,6 @@
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 #include "can.h"
-#include "usart.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
@@ -96,23 +95,12 @@ int main(void)
   
 
   /* USER CODE BEGIN 3 */
-  uint8_t cnt = 0;
-  uint8_t test[20] = {'K', 'A', 'K', 'A', '_', 'M', 'A', 'K', 'A', '[', 'x', ']', '\r', '\n'};
 
   /* Infinite loop */
   while (1)
   {
 	  HAL_Delay(250);
 
-	  /* Blink the LEDs */
-	  GPIOD->ODR = (1u << ((cnt) + 12));
-
-	  /* transmit dummy on UART 3 */
-	  test[10] = '0' + cnt;
-
-	  HAL_UART_Transmit(&huart3, test, 14, 1000);
-
-	  cnt = (cnt + 1) % 4 ;
   }
   /* USER CODE END 3 */
 
