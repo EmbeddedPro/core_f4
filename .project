@@ -24,13 +24,6 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/drivers</name>
-			<type>2</type>
-			<locationURI>$%7BSTM32_CUBE_ROOT%7D/Drivers/STM32F4xx_HAL_Driver/Src</locationURI>
-		</link>
-	</linkedResources>
 	<variableList>
 		<variable>
 			<name>STM32_CUBE_ROOT</name>

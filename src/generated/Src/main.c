@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * File Name          : main.c
-  * Date               : 18/02/2015 00:09:44
+  * Date               : 19/02/2015 03:02:34
   * Description        : Main program body
   ******************************************************************************
   *
@@ -34,6 +34,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
+#include "cmsis_os.h"
+#include "can.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -49,6 +51,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_FREERTOS_Init(void);
 
 /* USER CODE BEGIN PFP */
 
@@ -75,11 +78,22 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_CAN1_Init();
+  MX_CAN2_Init();
   MX_USART3_UART_Init();
 
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
+
+  /* Call init function for freertos objects (in freertos.c) */
+  MX_FREERTOS_Init();
+
+  /* Start scheduler */
+  osKernelStart();
+  
+  /* We should never get here as control is now taken by the scheduler */
+  
 
   /* USER CODE BEGIN 3 */
   uint8_t cnt = 0;
@@ -134,13 +148,27 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
   HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
 
-  HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_PLLCLK, RCC_MCODIV_4);
-
 }
 
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+void StartDefaultTask(void const * argument)
+{
+
+  /* USER CODE BEGIN 5 */
+ 
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+
+  /* USER CODE END 5 */ 
+
+}
+ 
 
 #ifdef USE_FULL_ASSERT
 
