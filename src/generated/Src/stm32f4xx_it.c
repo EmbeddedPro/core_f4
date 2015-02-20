@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    stm32f4xx_it.c
-  * @date    19/02/2015 17:49:46
+  * @date    20/02/2015 18:07:30
   * @brief   Interrupt Service Routines.
   ******************************************************************************
   *
@@ -37,11 +37,13 @@
 #include "stm32f4xx_it.h"
 #include "cmsis_os.h"
 /* USER CODE BEGIN 0 */
-
+#include "Log.h"
 /* USER CODE END 0 */
 /* External variables --------------------------------------------------------*/
  
 extern void xPortSysTickHandler(void);
+
+extern RTC_HandleTypeDef hrtc;
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
@@ -62,6 +64,21 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
+}
+
+/**
+* @brief This function handles RTC Alarms (A and B) through EXTI Line17 interrupt.
+*/
+void RTC_Alarm_IRQHandler(void)
+{
+  /* USER CODE BEGIN RTC_Alarm_IRQn 0 */
+   static uint32_t counter = 0;
+   logMsg(Log_SourceRTCInterrupt, Log_TypeDebug, counter++);
+  /* USER CODE END RTC_Alarm_IRQn 0 */
+  HAL_RTC_AlarmIRQHandler(&hrtc);
+  /* USER CODE BEGIN RTC_Alarm_IRQn 1 */
+
+  /* USER CODE END RTC_Alarm_IRQn 1 */
 }
 
 /**

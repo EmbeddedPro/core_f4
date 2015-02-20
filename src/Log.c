@@ -22,6 +22,7 @@ LogInfo logSourceNames [] =
          {"[CanTxInt     ]", 15},
          {"[UART task    ]", 15},
          {"[Initializing ]", 15},
+         {"[RTC Interrupt]", 15},
 };
 
 LogInfo logTypeNames [] =

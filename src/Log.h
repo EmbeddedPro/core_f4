@@ -18,6 +18,7 @@ typedef enum
    Log_SourceCanTxInt,
    Log_SourceUartTask,
    Log_SourceInit,
+   Log_SourceRTCInterrupt,
    Log_SourceCount,
    Log_SourceReserved = 0x7F
 }LogSource;

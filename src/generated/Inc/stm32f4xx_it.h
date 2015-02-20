@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    stm32f4xx_it.h
-  * @date    19/02/2015 17:49:46
+  * @date    20/02/2015 18:07:30
   * @brief   This file contains the headers of the interrupt handlers.
   ******************************************************************************
   *
@@ -47,6 +47,7 @@
 /* Exported functions ------------------------------------------------------- */
 
 void SysTick_Handler(void);
+void RTC_Alarm_IRQHandler(void);
 void BusFault_Handler(void);
 void UsageFault_Handler(void);
 void MemManage_Handler(void);

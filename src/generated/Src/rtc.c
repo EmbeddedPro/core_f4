@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
-  * File Name          : USART.c
+  * File Name          : RTC.c
   * Date               : 20/02/2015 18:07:30
   * Description        : This file provides code for the configuration
-  *                      of the USART instances.
+  *                      of the RTC instances.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2015 STMicroelectronics
@@ -34,82 +34,102 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "usart.h"
-
-#include "gpio.h"
+#include "rtc.h"
 
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
 
-UART_HandleTypeDef huart3;
+RTC_HandleTypeDef hrtc;
 
-/* USART3 init function */
-
-void MX_USART3_UART_Init(void)
+/* RTC init function */
+void MX_RTC_Init(void)
 {
+  RTC_TimeTypeDef sTime;
+  RTC_DateTypeDef sDate;
+  RTC_AlarmTypeDef sAlarm;
 
-  huart3.Instance = USART3;
-  huart3.Init.BaudRate = 115200;
-  huart3.Init.WordLength = UART_WORDLENGTH_8B;
-  huart3.Init.StopBits = UART_STOPBITS_1;
-  huart3.Init.Parity = UART_PARITY_NONE;
-  huart3.Init.Mode = UART_MODE_TX_RX;
-  huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart3.Init.OverSampling = UART_OVERSAMPLING_16;
-  HAL_UART_Init(&huart3);
+    /**Initialize RTC and set the Time and Date 
+    */
+  hrtc.Instance = RTC;
+  hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+  hrtc.Init.AsynchPrediv = 127;
+  hrtc.Init.SynchPrediv = 255;
+  hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+  hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+  hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+  HAL_RTC_Init(&hrtc);
+
+  sTime.Hours = 0;
+  sTime.Minutes = 0;
+  sTime.Seconds = 0;
+  sTime.SubSeconds = 0;
+  sTime.TimeFormat = RTC_HOURFORMAT12_AM;
+  sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+  sTime.StoreOperation = RTC_STOREOPERATION_RESET;
+  HAL_RTC_SetTime(&hrtc, &sTime, FORMAT_BCD);
+
+  sDate.WeekDay = RTC_WEEKDAY_MONDAY;
+  sDate.Month = RTC_MONTH_JANUARY;
+  sDate.Date = 1;
+  sDate.Year = 0;
+  HAL_RTC_SetDate(&hrtc, &sDate, FORMAT_BCD);
+
+    /**Enable the Alarm A 
+    */
+  sAlarm.AlarmTime.Hours = 0;
+  sAlarm.AlarmTime.Minutes = 0;
+  sAlarm.AlarmTime.Seconds = 0;
+  sAlarm.AlarmTime.SubSeconds = 0;
+  sAlarm.AlarmTime.TimeFormat = RTC_HOURFORMAT12_AM;
+  sAlarm.AlarmTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+  sAlarm.AlarmTime.StoreOperation = RTC_STOREOPERATION_RESET;
+  sAlarm.AlarmMask = RTC_ALARMMASK_NONE;
+  sAlarm.AlarmSubSecondMask = RTC_ALARMSUBSECONDMASK_ALL;
+  sAlarm.AlarmDateWeekDaySel = RTC_ALARMDATEWEEKDAYSEL_DATE;
+  sAlarm.AlarmDateWeekDay = 1;
+  sAlarm.Alarm = RTC_ALARM_A;
+  HAL_RTC_SetAlarm_IT(&hrtc, &sAlarm, FORMAT_BCD);
 
 }
 
-void HAL_UART_MspInit(UART_HandleTypeDef* huart)
+void HAL_RTC_MspInit(RTC_HandleTypeDef* hrtc)
 {
 
-  GPIO_InitTypeDef GPIO_InitStruct;
-  if(huart->Instance==USART3)
+  if(hrtc->Instance==RTC)
   {
-  /* USER CODE BEGIN USART3_MspInit 0 */
+  /* USER CODE BEGIN RTC_MspInit 0 */
 
-  /* USER CODE END USART3_MspInit 0 */
+  /* USER CODE END RTC_MspInit 0 */
     /* Peripheral clock enable */
-    __USART3_CLK_ENABLE();
-  
-    /**USART3 GPIO Configuration    
-    PC10     ------> USART3_TX
-    PC11     ------> USART3_RX 
-    */
-    GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+    __HAL_RCC_RTC_ENABLE();
 
-  /* USER CODE BEGIN USART3_MspInit 1 */
+    /* Peripheral interrupt init*/
+    HAL_NVIC_SetPriority(RTC_Alarm_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(RTC_Alarm_IRQn);
+  /* USER CODE BEGIN RTC_MspInit 1 */
 
-  /* USER CODE END USART3_MspInit 1 */
+  /* USER CODE END RTC_MspInit 1 */
   }
 }
 
-void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
+void HAL_RTC_MspDeInit(RTC_HandleTypeDef* hrtc)
 {
 
-  if(huart->Instance==USART3)
+  if(hrtc->Instance==RTC)
   {
-  /* USER CODE BEGIN USART3_MspDeInit 0 */
+  /* USER CODE BEGIN RTC_MspDeInit 0 */
 
-  /* USER CODE END USART3_MspDeInit 0 */
+  /* USER CODE END RTC_MspDeInit 0 */
     /* Peripheral clock disable */
-    __USART3_CLK_DISABLE();
-  
-    /**USART3 GPIO Configuration    
-    PC10     ------> USART3_TX
-    PC11     ------> USART3_RX 
-    */
-    HAL_GPIO_DeInit(GPIOC, GPIO_PIN_10|GPIO_PIN_11);
+    __HAL_RCC_RTC_DISABLE();
 
-  /* USER CODE BEGIN USART3_MspDeInit 1 */
+    /* Peripheral interrupt Deinit*/
+    HAL_NVIC_DisableIRQ(RTC_Alarm_IRQn);
 
-  /* USER CODE END USART3_MspDeInit 1 */
+  /* USER CODE BEGIN RTC_MspDeInit 1 */
+
+  /* USER CODE END RTC_MspDeInit 1 */
   }
 } 
 

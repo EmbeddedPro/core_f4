@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
-  * File Name          : gpio.h
-  * Date               : 20/02/2015 18:07:29
-  * Description        : This file contains all the functions prototypes for 
-  *                      the gpio  
+  * File Name          : RTC.h
+  * Date               : 20/02/2015 18:07:30
+  * Description        : This file provides code for the configuration
+  *                      of the RTC instances.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2015 STMicroelectronics
@@ -32,21 +32,24 @@
   *
   ******************************************************************************
   */
-
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __gpio_H
-#define __gpio_H
+#ifndef __rtc_H
+#define __rtc_H
 #ifdef __cplusplus
  extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
-void MX_GPIO_Init(void);
+
+extern RTC_HandleTypeDef hrtc;
+
+void MX_RTC_Init(void);
+
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ pinoutConfig_H */
+#endif /*__ rtc_H */
 
 /**
   * @}

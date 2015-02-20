@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * File Name          : freertos.c
-  * Date               : 19/02/2015 17:49:45
+  * Date               : 20/02/2015 18:07:30
   * Description        : Code for freertos applications
   ******************************************************************************
   *
@@ -181,7 +181,7 @@ void MX_FREERTOS_Init() {
   logQueueHandle = osMessageCreate(osMessageQ(logQueue), NULL);
 
   /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
+  logMsg(Log_SourceInit, Log_TypeDebug, 0);
   /* USER CODE END RTOS_QUEUES */
 }
 
@@ -222,9 +222,9 @@ void ledsTaskHandler(void const * argument)
 /* logTaskHandler function */
 void logTaskHandler(void const * argument)
 {
-   /* USER CODE BEGIN logTaskHandler */
+  /* USER CODE BEGIN logTaskHandler */
    logGenericTaskHandler(argument);
-   /* USER CODE END logTaskHandler */
+  /* USER CODE END logTaskHandler */
 }
 
 /* USER CODE BEGIN Application */
