@@ -40,6 +40,7 @@
 /* USER CODE BEGIN Includes */     
 #include "gpio.h"
 #include "usart.h"
+#include "log.h"
 /* USER CODE END Includes */
 
 /* Variables -----------------------------------------------------------------*/
@@ -189,18 +190,13 @@ void uartTaskHandler(void const * argument)
 {
   /* USER CODE BEGIN uartTaskHandler */
   /* Infinite loop */
-	  uint8_t cnt = 0;
-	  uint8_t test[20] = {'K', 'A', 'K', 'A', '_', 'M', 'A', 'K', 'A', '[', 'x', ']', '\r', '\n'};
+  uint32_t cnt = 0;
 
   for(;;)
   {
 	  osDelay(5000);
+	  logMsg(Log_SourceUartTask, Log_TypeDebug, cnt++);
 	  /* transmit dummy on UART 3 */
-	  test[10] = '0' + cnt;
-
-	  HAL_UART_Transmit(&huart3, test, 14, 1000);
-
-	  cnt = (cnt + 1) % 10 ;
   }
   /* USER CODE END uartTaskHandler */
 }
@@ -210,14 +206,14 @@ void ledsTaskHandler(void const * argument)
 {
   /* USER CODE BEGIN ledsTaskHandler */
   /* Infinite loop */
-  uint8_t cnt = 0;
+  uint32_t cnt = 0;
   for(;;)
   {
 	  	  /* Blink the LEDs */
 	  GPIOD->ODR = (1u << ((cnt) + 12));
 
 	  cnt = (cnt + 1) % 4 ;
-
+	  logMsg(Log_SourceLEDTask, cnt, cnt);
 	  osDelay(250);
   }
   /* USER CODE END ledsTaskHandler */
@@ -227,16 +223,7 @@ void ledsTaskHandler(void const * argument)
 void logTaskHandler(void const * argument)
 {
    /* USER CODE BEGIN logTaskHandler */
-   /* Infinite loop */
-   for (;;)
-   {
-      UBaseType_t no = uxQueueMessagesWaiting(logQueueHandle);
-      if (no > 0) //there is a log to print
-      {
-
-      }
-      osDelay(1);
-   }
+   logGenericTaskHandler(argument);
    /* USER CODE END logTaskHandler */
 }
 

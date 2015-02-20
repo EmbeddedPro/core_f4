@@ -40,6 +40,8 @@
 
 /* USER CODE BEGIN Includes */
 #include <stddef.h>
+#include "Log.h"
+#include "usart.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -53,7 +55,7 @@ void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
 
 /* USER CODE BEGIN PFP */
-
+LogStatus logUart3Implementation(uint32_t msg);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -82,13 +84,14 @@ int main(void)
   MX_USART3_UART_Init();
 
   /* USER CODE BEGIN 2 */
-
+  logInit(logUart3Implementation);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
 
   /* Start scheduler */
+  logMsg(Log_SourceInit, Log_TypeDebug, 0);
   osKernelStart();
   
   /* We should never get here as control is now taken by the scheduler */
@@ -100,8 +103,8 @@ int main(void)
   while (1)
   {
 	  HAL_Delay(250);
-
   }
+
   /* USER CODE END 3 */
 
 }
@@ -139,6 +142,50 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+static uint8_t userData[20];
+static uint8_t hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+
+#define NIBBLE2HEX(nibble)  (hexDigits[nibble])
+
+
+LogStatus logUart3Implementation(uint32_t msg)
+{
+   LogStatus         retVal            = Log_Ok;
+   uint8_t           meta              = msg >> 24;
+   LogSource         source            = (LogSource)(meta >> 2);
+   LogType           type              = (LogType)(meta & 0x3);
+   int32_t           i                 = 0;
+   int32_t           ui                = 0;
+   extern LogInfo logSourceNames[];
+   extern LogInfo logTypeNames[];
+
+   /* sending the source */
+   char *            p                 = source < Log_SourceCount ? logSourceNames[source].description : logSourceNames[Log_SourceInvalid].description;
+   uint16_t          len               = 15;
+   HAL_UART_Transmit(&huart3, (uint8_t*)p, len, 100);
+
+   /* sending the type */
+   p        = type < Log_TypeCount ? logTypeNames[type].description : logTypeNames[Log_TypeCount].description;
+   len      = 7;
+   HAL_UART_Transmit(&huart3, (uint8_t*)p, len, 100);
+
+   /* sending the user data */
+   userData[ui++] = ' ';
+   userData[ui++] = ' ';
+
+   for(i = 2; i >= 0; i--)
+   {
+      uint8_t userByte = (msg >> i * 8) & 0xFF;
+      userData[ui++] = NIBBLE2HEX((userByte & 0xF) >> 4);
+      userData[ui++] = NIBBLE2HEX(userByte & 0xF);
+      userData[ui++] = ' ';
+   }
+   userData[ui++] = '\r';
+   userData[ui++] = '\n';
+   HAL_UART_Transmit(&huart3, userData, ui, 100);
+   return retVal;
+}
 
 /* USER CODE END 4 */
 

@@ -39,7 +39,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)\src\generated\Drivers\CMSIS\Device\ST\STM32F4xx\Include;$(ProjectDir)\src\generated\Drivers\STM32F4xx_HAL_Driver\Inc;src\generated\Inc;core_f4\src\generated\Middlewares\Third_Party\FreeRTOS\Source\include;src\generated\Middlewares\Third_Party\FreeRTOS\Source\portable\GCC\ARM_CM4F;src\generated\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS</IncludePath>
+    <IncludePath>$(ProjectDir)\src\generated\Drivers\CMSIS\Device\ST\STM32F4xx\Include;$(ProjectDir)\src\generated\Drivers\STM32F4xx_HAL_Driver\Inc;src\generated\Inc;core_f4\src\generated\Middlewares\Third_Party\FreeRTOS\Source\include;src\generated\Middlewares\Third_Party\FreeRTOS\Source\portable\GCC\ARM_CM4F;src\generated\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS;C:\tools\gcc-4.9\lib\gcc\arm-none-eabi\4.9.3\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
